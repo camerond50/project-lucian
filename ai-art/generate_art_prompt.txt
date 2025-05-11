@@ -1,0 +1,4 @@
+Concept: Cyberpunk Cityscape
+Style: High-detail, reflective neon lights, foggy atmosphere
+Model: Stable Diffusion 2.1
+Parameters: 512x512, 50 steps, CFG Scale 7
