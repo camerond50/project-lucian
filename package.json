@@ -11,7 +11,7 @@
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "test": "vitest run",
-    "package:win": "electron-builder --win nsis portable zip"
+    "package:win": "electron-builder --win nsis portable zip --publish never"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
