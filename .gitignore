@@ -1,0 +1,11 @@
+node_modules/
+release/
+dist/
+.vscode/
+.env
+.env.*
+*.log
+*.key
+*.pem
+.DS_Store
+coverage/

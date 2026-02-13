@@ -1,0 +1,50 @@
+{
+  "name": "lucian-desktop-companion",
+  "version": "0.1.1",
+  "description": "Lucian Electron desktop companion app",
+  "main": "src/main/index.js",
+  "author": "camerond50",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "lint": "eslint .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "test": "vitest run",
+    "package:win": "electron-builder --win nsis portable zip"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.20.0",
+    "electron": "^34.0.0",
+    "electron-builder": "^25.1.8",
+    "eslint": "^9.20.1",
+    "globals": "^15.14.0",
+    "jsdom": "^26.0.0",
+    "prettier": "^3.4.2",
+    "vitest": "^3.0.5"
+  },
+  "build": {
+    "appId": "com.lucian.desktop",
+    "productName": "LucianDesktop",
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable",
+        "zip"
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lucian Desktop</title>
+    <link rel="stylesheet" href="./src/styles/app.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="chat-panel">
+        <header>
+          <h1>Lucian Desktop Companion</h1>
+        </header>
+        <div id="chat-log" class="chat-log"></div>
+        <form id="chat-form" class="chat-form">
+          <input
+            id="chat-input"
+            type="text"
+            placeholder="Ask Lucian..."
+            required
+          />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+      <aside class="avatar-panel">
+        <h2>Avatar Widget</h2>
+        <div id="avatar-emote" class="avatar-emote">•_•</div>
+        <div id="avatar-mood" class="avatar-mood">idle</div>
+        <section>
+          <h3>Secure API key storage</h3>
+          <form id="key-form" class="key-form">
+            <input id="provider" type="text" value="openai" required />
+            <input
+              id="key-value"
+              type="password"
+              placeholder="sk-..."
+              required
+            />
+            <button type="submit">Save key</button>
+          </form>
+          <p id="key-status"></p>
+        </section>
+      </aside>
+    </main>
+    <script src="./src/app.js"></script>
+  </body>
+</html>
