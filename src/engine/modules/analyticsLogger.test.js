@@ -3,6 +3,7 @@ import analyticsLogger from './analyticsLogger.js';
 
 const {
   classifyPromptIntent,
+  exportInteractionAnalytics,
   getInteractionMetrics,
   recordInteractionEvent,
   resetInteractionAnalytics
@@ -75,5 +76,31 @@ describe('analyticsLogger', () => {
       },
       lastEventAt: new Date(3400).toISOString()
     });
+  });
+
+  it('exports analytics snapshots without original prompt text', () => {
+    const sourcePrompt = 'Summarize the command center session';
+
+    recordInteractionEvent({
+      prompt: sourcePrompt,
+      provider: 'local-engine',
+      avatar: { mood: 'focused' },
+      startedAt: 4000,
+      completedAt: 4500
+    });
+
+    const exportPayload = exportInteractionAnalytics();
+
+    expect(exportPayload.schemaVersion).toBe('lucian.analytics.export.v1');
+    expect(exportPayload.eventCount).toBe(1);
+    expect(exportPayload.summary.totalInteractions).toBe(1);
+    expect(exportPayload.events[0]).toMatchObject({
+      provider: 'local-engine',
+      intent: 'general',
+      avatarMood: 'focused',
+      latencyMs: 500
+    });
+    expect(exportPayload.events[0].prompt).toBeUndefined();
+    expect(JSON.stringify(exportPayload)).not.toContain(sourcePrompt);
   });
 });
