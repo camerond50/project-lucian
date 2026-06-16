@@ -34,15 +34,41 @@ function classifyPromptIntent(prompt) {
   const intentRules = [
     {
       intent: 'revenue',
-      terms: ['revenue', 'money', 'client', 'customer', 'sell', 'offer', 'lead', 'buyer']
+      terms: [
+        'revenue',
+        'money',
+        'client',
+        'customer',
+        'sell',
+        'offer',
+        'lead',
+        'buyer'
+      ]
     },
     {
       intent: 'development',
-      terms: ['code', 'build', 'debug', 'test', 'repo', 'deploy', 'schema', 'script']
+      terms: [
+        'code',
+        'build',
+        'debug',
+        'test',
+        'repo',
+        'deploy',
+        'schema',
+        'script'
+      ]
     },
     {
       intent: 'household_ops',
-      terms: ['budget', 'bill', 'family', 'kids', 'home', 'household', 'schedule']
+      terms: [
+        'budget',
+        'bill',
+        'family',
+        'kids',
+        'home',
+        'household',
+        'schedule'
+      ]
     },
     {
       intent: 'planning',
