@@ -1,6 +1,9 @@
-const { beforeEach, describe, expect, it } = require('vitest');
-const { handlePrompt } = require('./engine');
-const { resetInteractionAnalytics } = require('./modules/analyticsLogger');
+import { beforeEach, describe, expect, it } from 'vitest';
+import engine from './engine.js';
+import analyticsLogger from './modules/analyticsLogger.js';
+
+const { handlePrompt } = engine;
+const { resetInteractionAnalytics } = analyticsLogger;
 
 describe('engine', () => {
   beforeEach(() => {
