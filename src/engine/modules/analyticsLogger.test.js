@@ -1,10 +1,12 @@
-const { beforeEach, describe, expect, it } = require('vitest');
+import { beforeEach, describe, expect, it } from 'vitest';
+import analyticsLogger from './analyticsLogger.js';
+
 const {
   classifyPromptIntent,
   getInteractionMetrics,
   recordInteractionEvent,
   resetInteractionAnalytics
-} = require('./analyticsLogger');
+} = analyticsLogger;
 
 describe('analyticsLogger', () => {
   beforeEach(() => {
