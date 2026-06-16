@@ -18,8 +18,9 @@ module.exports = [
     }
   },
   {
-    files: ['tests/**/*.js'],
+    files: ['**/*.test.js', 'tests/**/*.js'],
     languageOptions: {
+      sourceType: 'module',
       globals: {
         ...globals.node,
         ...globals.vitest
