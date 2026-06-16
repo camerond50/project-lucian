@@ -58,6 +58,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
 .avatar-emote {
   font-size: 54px;
 }
@@ -88,4 +93,15 @@ button {
 .analytics-panel dd {
   margin: 0;
   font-weight: 700;
+}
+
+.analytics-panel button {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.status-text {
+  min-height: 1.25rem;
+  color: #9ca3af;
+  font-size: 0.9rem;
 }
