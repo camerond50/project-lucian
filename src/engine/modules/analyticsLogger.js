@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 
 const MAX_EVENTS = 100;
+const ANALYTICS_EXPORT_SCHEMA_VERSION = 'lucian.analytics.export.v1';
 const interactionEvents = [];
 
 function createEventId() {
@@ -116,6 +117,20 @@ function summarizeEvents(events = interactionEvents) {
   );
 }
 
+function buildSafeEventSnapshot(event) {
+  return {
+    id: event.id,
+    createdAt: event.createdAt,
+    provider: event.provider,
+    intent: event.intent,
+    promptStats: {
+      ...event.promptStats
+    },
+    avatarMood: event.avatarMood,
+    latencyMs: event.latencyMs
+  };
+}
+
 function recordInteractionEvent({
   prompt,
   provider = 'local-engine',
@@ -150,12 +165,26 @@ function getInteractionMetrics() {
   return summarizeEvents();
 }
 
+function exportInteractionAnalytics() {
+  const events = interactionEvents.map(buildSafeEventSnapshot);
+
+  return {
+    schemaVersion: ANALYTICS_EXPORT_SCHEMA_VERSION,
+    generatedAt: new Date().toISOString(),
+    eventCount: events.length,
+    summary: summarizeEvents(events),
+    events
+  };
+}
+
 function resetInteractionAnalytics() {
   interactionEvents.splice(0, interactionEvents.length);
 }
 
 module.exports = {
+  ANALYTICS_EXPORT_SCHEMA_VERSION,
   classifyPromptIntent,
+  exportInteractionAnalytics,
   getInteractionMetrics,
   recordInteractionEvent,
   resetInteractionAnalytics
