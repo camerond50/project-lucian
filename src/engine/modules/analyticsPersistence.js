@@ -11,8 +11,9 @@ const DEFAULT_SETTINGS = {
 function createSafeStoragePath(storageDir, filename) {
   const resolvedDir = path.resolve(storageDir);
   const resolvedPath = path.resolve(resolvedDir, filename);
+  const relativePath = path.relative(resolvedDir, resolvedPath);
 
-  if (!resolvedPath.startsWith(resolvedDir)) {
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
     throw new Error('Analytics persistence path must stay inside storage directory.');
   }
 
