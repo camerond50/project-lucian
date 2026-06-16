@@ -96,4 +96,20 @@ describe('analyticsPersistence', () => {
     expect(status.enabled).toBe(false);
     expect(persistedAnalytics.eventCount).toBe(1);
   });
+
+  it('rejects settings and event filenames that escape the storage directory', () => {
+    expect(() =>
+      createAnalyticsPersistence({
+        storageDir: tempDir,
+        settingsFilename: '../lucian-analytics-settings.json'
+      })
+    ).toThrow('Analytics persistence path must stay inside storage directory.');
+
+    expect(() =>
+      createAnalyticsPersistence({
+        storageDir: tempDir,
+        eventsFilename: '../lucian-analytics-local.json'
+      })
+    ).toThrow('Analytics persistence path must stay inside storage directory.');
+  });
 });
