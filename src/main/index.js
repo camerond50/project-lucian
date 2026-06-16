@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { handlePrompt } = require('../engine/engine');
+const { exportInteractionAnalytics } = require('../engine/modules/analyticsLogger');
 const { secureKeyStore } = require('../engine/secureKeyStore');
 
 function createWindow() {
@@ -20,6 +21,10 @@ function createWindow() {
 app.whenReady().then(() => {
   ipcMain.handle('chat:send', async (_event, payload) => {
     return handlePrompt(payload);
+  });
+
+  ipcMain.handle('analytics:export', () => {
+    return exportInteractionAnalytics();
   });
 
   ipcMain.handle('keys:set', (_event, provider, keyValue) => {
