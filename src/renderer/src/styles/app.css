@@ -58,7 +58,8 @@ button {
   cursor: pointer;
 }
 
-button:disabled {
+button:disabled,
+input:disabled {
   cursor: not-allowed;
   opacity: 0.65;
 }
@@ -98,6 +99,27 @@ button:disabled {
 .analytics-panel button {
   margin-top: 12px;
   width: 100%;
+}
+
+.toggle-row {
+  align-items: center;
+  border-top: 1px solid #374151;
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+.toggle-row small {
+  color: #9ca3af;
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.toggle-row input {
+  flex: 0 0 auto;
 }
 
 .status-text {
