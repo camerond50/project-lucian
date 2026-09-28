@@ -15,9 +15,9 @@ describe('analyticsLogger', () => {
   });
 
   it('classifies revenue and development prompts without storing raw prompt text', () => {
-    expect(classifyPromptIntent('Find buyer signal for a new client offer')).toBe(
-      'revenue'
-    );
+    expect(
+      classifyPromptIntent('Find buyer signal for a new client offer')
+    ).toBe('revenue');
     expect(classifyPromptIntent('Debug the repo test failure')).toBe(
       'development'
     );

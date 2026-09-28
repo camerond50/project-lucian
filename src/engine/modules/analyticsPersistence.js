@@ -14,7 +14,9 @@ function createSafeStoragePath(storageDir, filename) {
   const relativePath = path.relative(resolvedDir, resolvedPath);
 
   if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) {
-    throw new Error('Analytics persistence path must stay inside storage directory.');
+    throw new Error(
+      'Analytics persistence path must stay inside storage directory.'
+    );
   }
 
   return resolvedPath;
