@@ -4,10 +4,8 @@ import path from 'path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import analyticsPersistence from './analyticsPersistence.js';
 
-const {
-  ANALYTICS_PERSISTENCE_SCHEMA_VERSION,
-  createAnalyticsPersistence
-} = analyticsPersistence;
+const { ANALYTICS_PERSISTENCE_SCHEMA_VERSION, createAnalyticsPersistence } =
+  analyticsPersistence;
 
 let tempDir;
 

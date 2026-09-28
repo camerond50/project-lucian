@@ -7,8 +7,12 @@ const analyticsTotal = document.getElementById('analytics-total');
 const analyticsIntent = document.getElementById('analytics-intent');
 const analyticsLatency = document.getElementById('analytics-latency');
 const analyticsExportButton = document.getElementById('analytics-export');
-const analyticsExportStatus = document.getElementById('analytics-export-status');
-const analyticsPersistenceToggle = document.getElementById('analytics-persistence');
+const analyticsExportStatus = document.getElementById(
+  'analytics-export-status'
+);
+const analyticsPersistenceToggle = document.getElementById(
+  'analytics-persistence'
+);
 const analyticsPersistenceStatus = document.getElementById(
   'analytics-persistence-status'
 );
@@ -98,7 +102,8 @@ analyticsExportButton.addEventListener('click', async () => {
     const filename = createAnalyticsDownload(exportPayload);
     analyticsExportStatus.textContent = `Exported ${exportPayload.eventCount} events to ${filename}`;
   } catch (error) {
-    analyticsExportStatus.textContent = 'Analytics export failed. Check console for details.';
+    analyticsExportStatus.textContent =
+      'Analytics export failed. Check console for details.';
     console.error('Analytics export failed', error);
   } finally {
     analyticsExportButton.disabled = false;

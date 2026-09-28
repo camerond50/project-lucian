@@ -102,7 +102,8 @@ function summarizeEvents(events = interactionEvents) {
   return events.reduce(
     (summary, event) => {
       summary.totalInteractions += 1;
-      summary.byIntent[event.intent] = (summary.byIntent[event.intent] ?? 0) + 1;
+      summary.byIntent[event.intent] =
+        (summary.byIntent[event.intent] ?? 0) + 1;
       summary.byProvider[event.provider] =
         (summary.byProvider[event.provider] ?? 0) + 1;
       summary.lastEventAt = event.createdAt;

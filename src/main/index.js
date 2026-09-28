@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const { handlePrompt } = require('../engine/engine');
-const { exportInteractionAnalytics } = require('../engine/modules/analyticsLogger');
+const {
+  exportInteractionAnalytics
+} = require('../engine/modules/analyticsLogger');
 const {
   createAnalyticsPersistence
 } = require('../engine/modules/analyticsPersistence');
@@ -43,7 +45,10 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('analytics:persistence:set', (_event, enabled) => {
-    return analyticsPersistence.setEnabled(enabled, exportInteractionAnalytics());
+    return analyticsPersistence.setEnabled(
+      enabled,
+      exportInteractionAnalytics()
+    );
   });
 
   ipcMain.handle('keys:set', (_event, provider, keyValue) => {
