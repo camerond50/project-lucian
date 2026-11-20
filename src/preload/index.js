@@ -7,7 +7,13 @@ contextBridge.exposeInMainWorld('lucianApi', {
     ipcRenderer.invoke('analytics:persistence:status'),
   setAnalyticsPersistence: (enabled) =>
     ipcRenderer.invoke('analytics:persistence:set', enabled),
-  saveKey: (provider, keyValue) =>
-    ipcRenderer.invoke('keys:set', provider, keyValue),
+  observatorySnapshot: (filters) => ipcRenderer.invoke('observatory:snapshot', filters),
+  onObservatorySnapshot: (callback) => {
+    if (typeof callback !== 'function') throw new TypeError('Callback required.');
+    const handler = () => callback();
+    ipcRenderer.on('observatory:dirty', handler);
+    return () => ipcRenderer.removeListener('observatory:dirty', handler);
+  },
+  saveKey: (provider, keyValue) => ipcRenderer.invoke('keys:set', provider, keyValue),
   keyStatus: () => ipcRenderer.invoke('keys:status')
 });

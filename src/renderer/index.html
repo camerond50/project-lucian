@@ -5,21 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lucian Desktop</title>
     <link rel="stylesheet" href="./src/styles/app.css" />
+    <link rel="stylesheet" href="./src/styles/observatory.css" />
   </head>
   <body>
-    <main class="app-shell">
+    <nav class="lucian-nav" aria-label="Primary views">
+      <span class="lucian-brand">LUCIAN <span>// OPERATOR</span></span>
+      <div class="lucian-nav-tabs" role="tablist" aria-label="View selection">
+        <button id="tab-chat" role="tab" aria-controls="chat-view" aria-selected="true" type="button">Conversation</button>
+        <button id="tab-observatory" role="tab" aria-controls="observatory-view" aria-selected="false" type="button">Event Observatory</button>
+      </div>
+      <span class="lucian-nav-caption">LOCAL SYSTEM / READ ONLY</span>
+    </nav>
+
+    <main class="app-shell" id="chat-view" role="tabpanel" aria-labelledby="tab-chat">
       <section class="chat-panel">
-        <header>
-          <h1>Lucian Desktop Companion</h1>
-        </header>
+        <header><h1>Lucian Desktop Companion</h1></header>
         <div id="chat-log" class="chat-log"></div>
         <form id="chat-form" class="chat-form">
-          <input
-            id="chat-input"
-            type="text"
-            placeholder="Ask Lucian..."
-            required
-          />
+          <input id="chat-input" type="text" placeholder="Ask Lucian..." required />
           <button type="submit">Send</button>
         </form>
       </section>
@@ -30,26 +33,14 @@
         <section class="analytics-panel" aria-live="polite">
           <h3>Session Analytics</h3>
           <dl>
-            <div>
-              <dt>Interactions</dt>
-              <dd id="analytics-total">0</dd>
-            </div>
-            <div>
-              <dt>Last intent</dt>
-              <dd id="analytics-intent">idle</dd>
-            </div>
-            <div>
-              <dt>Last latency</dt>
-              <dd id="analytics-latency">0ms</dd>
-            </div>
+            <div><dt>Interactions</dt><dd id="analytics-total">0</dd></div>
+            <div><dt>Last intent</dt><dd id="analytics-intent">idle</dd></div>
+            <div><dt>Last latency</dt><dd id="analytics-latency">0ms</dd></div>
           </dl>
           <button id="analytics-export" type="button">Export analytics</button>
           <p id="analytics-export-status" class="status-text"></p>
           <label class="toggle-row" for="analytics-persistence">
-            <span>
-              <strong>Persist analytics locally</strong>
-              <small>Stores privacy-safe session metrics on this device only.</small>
-            </span>
+            <span><strong>Persist analytics locally</strong><small>Stores privacy-safe session metrics on this device only.</small></span>
             <input id="analytics-persistence" type="checkbox" />
           </label>
           <p id="analytics-persistence-status" class="status-text"></p>
@@ -58,18 +49,92 @@
           <h3>Secure API key storage</h3>
           <form id="key-form" class="key-form">
             <input id="provider" type="text" value="openai" required />
-            <input
-              id="key-value"
-              type="password"
-              placeholder="sk-..."
-              required
-            />
+            <input id="key-value" type="password" placeholder="sk-..." required />
             <button type="submit">Save key</button>
           </form>
           <p id="key-status"></p>
         </section>
       </aside>
     </main>
+
+    <section id="observatory-view" class="obs-root" role="tabpanel" aria-labelledby="tab-observatory" hidden>
+      <header class="obs-head">
+        <div class="obs-title-block">
+          <div class="obs-eyebrow">INDEPEND <span>/</span> OUTBOX <span>/</span> LUCIAN</div>
+          <div class="obs-subhead"><span id="obs-mode-dot" class="obs-dot"></span><span id="obs-status">AWAITING REAL EVENTS</span><span class="obs-slash">//</span><span>V1.0 TELEMETRY</span></div>
+        </div>
+        <div class="obs-kpis" aria-label="Event statistics">
+          <div class="obs-kpi"><span>TOTAL EVENTS</span><strong id="obs-total">0</strong></div>
+          <div class="obs-kpi"><span>BACKLOG</span><strong id="obs-backlog">0</strong></div>
+          <div class="obs-kpi"><span>EV / S</span><strong id="obs-rate">0.00</strong></div>
+          <div class="obs-kpi"><span>P90</span><strong id="obs-p90">—</strong></div>
+          <div class="obs-kpi"><span>FAILURES / 60S</span><strong id="obs-failures">0</strong></div>
+          <div class="obs-kpi"><span>ACTIVE SOURCES</span><strong id="obs-sources-count">0</strong></div>
+        </div>
+      </header>
+
+      <div class="obs-toolbar">
+        <div class="obs-filters">
+          <label for="obs-source-filter">SOURCE</label>
+          <select id="obs-source-filter"><option value="all">ALL SOURCES</option></select>
+          <label for="obs-status-filter">STATE</label>
+          <select id="obs-status-filter">
+            <option value="all">ALL STATES</option>
+            <option value="queued">QUEUED</option>
+            <option value="running">RUNNING</option>
+            <option value="completed">COMPLETED</option>
+            <option value="failed">FAILED</option>
+            <option value="retrying">RETRYING</option>
+            <option value="blocked">BLOCKED</option>
+            <option value="dead_letter">DEAD LETTER</option>
+          </select>
+        </div>
+        <div class="obs-tools">
+          <button id="obs-pause" type="button" aria-pressed="false">PAUSE VIEW</button>
+          <button id="obs-export" type="button">EXPORT SAFE JSON</button>
+        </div>
+      </div>
+
+      <div class="obs-visual" aria-label="Circular representation of recorded backend events">
+        <canvas id="obs-canvas" aria-hidden="true"></canvas>
+        <div class="obs-stage-label" aria-hidden="true">EVENT SPACE / 00 <span>MONITORING ACTUAL INGESTED EVENTS</span></div>
+        <div class="obs-stage-badge" aria-hidden="true"><div>EVENTS / LIVE</div><strong id="obs-stage-rate">0.00 EV/S</strong><div>NO SYNTHETIC TRAFFIC</div></div>
+        <p class="obs-canvas-fallback" id="obs-canvas-fallback">No events observed yet. Send a message to Lucian or connect an authorized local source.</p>
+        <div class="obs-stage-bottom" aria-hidden="true"><span>● COMPLETED</span><span>● RUNNING</span><span>● RETRY / FAILED</span></div>
+      </div>
+
+      <div class="obs-grid">
+        <section class="obs-panel obs-trail-panel" aria-labelledby="obs-trail-heading">
+          <header><h2 id="obs-trail-heading">EVENT / TRAIL</h2><span>LAST 140</span></header>
+          <div id="obs-trail" class="obs-trail" aria-live="off"><p class="obs-empty">NO EVENTS RECEIVED</p></div>
+        </section>
+        <section class="obs-panel" aria-labelledby="obs-throughput-heading">
+          <header><h2 id="obs-throughput-heading">FLOW / THROUGHPUT</h2><span>LAST 60S</span></header>
+          <div class="obs-throughput-stat"><strong id="obs-flow-rate">0.00</strong><span>EVENTS PER SECOND</span></div>
+          <div id="obs-bars" class="obs-bars" role="img" aria-label="Event arrivals in the last 60 seconds"></div>
+        </section>
+        <section class="obs-panel" aria-labelledby="obs-handlers-heading">
+          <header><h2 id="obs-handlers-heading">SOURCES / HEARTBEATS</h2><span>LAST 120S</span></header>
+          <div id="obs-source-list" class="obs-source-list"></div>
+        </section>
+        <section class="obs-panel" aria-labelledby="obs-retries-heading">
+          <header><h2 id="obs-retries-heading">RETRIES / HEALTH</h2><span>LAST 60S</span></header>
+          <dl class="obs-health">
+            <div><dt>RETRIES</dt><dd id="obs-retries">0</dd></div>
+            <div><dt>FAILURES</dt><dd id="obs-fail-count">0</dd></div>
+            <div><dt>P50 / P99</dt><dd id="obs-latency-range">— / —</dd></div>
+            <div><dt>PERSISTENCE</dt><dd id="obs-persist">OFF</dd></div>
+          </dl>
+        </section>
+      </div>
+      <section class="obs-inspector" aria-labelledby="obs-inspect-title">
+        <h2 id="obs-inspect-title">SELECTED EVENT / DETAIL</h2>
+        <pre id="obs-selected">Select an event in the trail for sanitized details.</pre>
+      </section>
+      <footer class="obs-footer">LOCAL OBSERVABILITY ONLY <span>•</span> EVENTS ARE REAL OR THE DISPLAY REMAINS EMPTY <span>•</span> INTAKE NEVER EXECUTES TASKS</footer>
+    </section>
+
     <script src="./src/app.js"></script>
+    <script src="./src/observatory.js"></script>
   </body>
 </html>
