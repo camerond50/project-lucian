@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:observatory",
+    "test:observatory": "node --test tests/observatory-smoke.cjs",
     "validate": "npm run lint && npm run format && npm test",
     "package:win": "electron-builder --win nsis portable zip --publish never"
   },
@@ -27,25 +28,9 @@
   "build": {
     "appId": "com.lucian.desktop",
     "productName": "LucianDesktop",
-    "files": [
-      "src/**/*",
-      "package.json"
-    ],
-    "directories": {
-      "output": "release"
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "portable",
-        "zip"
-      ],
-      "artifactName": "${productName}-${version}-${arch}.${ext}"
-    },
-    "nsis": {
-      "oneClick": false,
-      "perMachine": false,
-      "allowToChangeInstallationDirectory": true
-    }
+    "files": ["src/**/*", "package.json"],
+    "directories": {"output": "release"},
+    "win": {"target": ["nsis", "portable", "zip"], "artifactName": "${productName}-${version}-${arch}.${ext}"},
+    "nsis": {"oneClick": false, "perMachine": false, "allowToChangeInstallationDirectory": true}
   }
 }
